@@ -5,6 +5,8 @@ Proje Yönetim Sistemi
 Bu proje, ASP.NET Core Web API kullanılarak geliştirilmiş bir Proje Yönetim Sistemi uygulamasıdır.
 
 -Kullanılan Teknolojiler-
+
+
 •Backend = C#, Asp.Net Core Web API, Entity Framework Core
 •Veri Erişimi = Entity Framework Core (ORM) (Migration desteği)
 •Veritabanı = Microsoft SQL Server
@@ -16,6 +18,8 @@ Bu proje, ASP.NET Core Web API kullanılarak geliştirilmiş bir Proje Yönetim 
 
 
 -Özellikler-
+
+
 •Kullanıcı kayıt ve giriş işlemleri
 •JWT tabanlı kimlik doğrulama 
 •Rol bazlı ve proje üyeliğine dayalı yetkilendirmeler (Admin, ProjectManager, TeamMember, Viewer)
@@ -74,24 +78,27 @@ Projeyi kendi bilgisayarınızda ayağa kaldırmak için sırasıyla şu adımla
 
 1. Projeyi İndirin ve Açın
 Projeyi GitHub'dan ZIP olarak indirin ve bir klasöre Tümünü Ayıkla diyerek çıkartın.
-
 Çıkarttığınız klasörün içindeki .sln (Solution) uzantılı dosyaya çift tıklayarak projeyi Visual Studio ile açın.
+
+
 
 2. .NET 8.0 SDK ve SQL Server Kurulumu
 Bilgisayarınızda .NET 8.0 SDK'nın ve SQL Server Express sürümünün kurulu olduğundan emin olun.
-
 NuGet paketleri projeyi açtığınızda otomatik olarak yüklenecektir; ek bir komut girmenize gerek yoktur.
 
+
+
 3. Backend Kısmında Veritabanı Bağlantı Ayarlarını Yapın (appsettings.json)
-
 Proje içerisindeki appsettings.json dosyasını açın.
-
 ConnectionStrings alanındaki sunucu adını kendi yerel SQL Server sunucu adınıza göre güncelleyin 
 
-Örnek bağlantı cümlesi: Server=localhost\\SQLEXPRESS;Database=ProjectManagementDB;Trusted_Connection=True;TrustServerCertificate=True;)
+Örnek bağlantı cümlesi:
+"Server=localhost\\SQLEXPRESS;Database=ProjectManagementDB;Trusted_Connection=True;TrustServerCertificate=True;"
+
 
 4. Veritabanını Oluşturma (Migration)
 Proje ilk kez çalıştırıldığında veya Entity Framework Core altyapısı sayesinde veritabanı ve tablolar otomatik olarak SQL Server üzerinde oluşturulacaktır.
+
 
 5. Projeyi Çalıştırın
 Visual Studio üzerinde üst menüde yer alan yeşil Start butonuna basarak projeyi çalıştırabilirsiniz.
