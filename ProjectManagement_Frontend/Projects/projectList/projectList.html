@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Proje Listesi</title>
+    <link rel="stylesheet" href="projectList.css">
+</head>
+
+<body>
+    <div id="mySidebar" class="sidebar">
+        <a href="javascript:void(0)" class="close-btn" onclick="toggleSidebarUserList()">&times;</a>
+
+        <h2 class="sidebar-title"> Proje İşlemleri </h2>
+        <button class="logout-btn" onclick="logout()">Çıkış Yap</button>
+    </div>
+
+    <div class="menu-btn" onclick="toggleSidebar()"> &#9776; </div>
+
+    <div class="headerContainer">
+        <header class="header">
+            <h2>Proje Yönetim Sistemi</h2>
+            <ul class="panel">
+                <li>
+                    <a href="../../MainWindow/MainWindow.html">Ana Sayfa</a>
+                </li>
+                
+                <li class="dropdown">
+                    <a href="../../Users/userList/userList.html">Üyeler</a>
+                </li>
+                
+                <li class="dropdown">
+                    <a href="../../Projects/projectList/projectList.html">Projeler</a>
+                </li>
+
+                <li class="dropdown">
+                    <a href="../../Tasks/taskList/taskList.html">Görevler</a>
+                </li>
+
+                <li class="dropdown">
+                    <a href="../../Comments/comments/Comments.html">Yorumlar</a>
+                </li>
+            </ul>
+        </header>
+    </div>
+
+    <main class="content-wrapper">
+
+        <section class="filter-bar">
+            <select id="statusFilter">
+                <option value="">Tüm Durumlar</option>
+                <option value="0">Planlandı</option>
+                <option value="1">Devam Ediyor</option>
+                <option value="2">Tamamlandı</option>
+            </select>
+            <input type="text" id="ownerIdFilter" placeholder="Proje Sahibi ID (Opsiyonel)">
+
+            <button onclick="applyFilter()">Filtrele</button>
+            
+            <!-- YENİ EKLENEN BUTON -->
+            <button class="action-btn" onclick="openAddModal()" style="margin-left: auto;">+ Yeni Proje Ekle</button>
+        </section>
+
+        <table class="projectList-table">
+            <thead>
+                <tr>
+                    <th>Proje Adı</th>
+                    <th>Durum</th>
+                    <th>Başlama Tarihi</th>
+                    <th>Bitiş Tarihi</th>
+                    <th>Proje Sahibi (ID)</th>
+                    <th>İşlemler</th>
+                </tr>
+            </thead>
+            <tbody id="projectListTableBody">
+            </tbody>
+        </table>
+        
+        <div class="pagination-container">
+            <button id="prevBtn" onclick="prevPage()">Önceki</button>
+            <span id="pageInfo" style="color: black;">Sayfa 1</span>
+            <button id="nextBtn" onclick="nextPage()">Sonraki</button>
+        </div>
+    </main>
+
+    <div id="addProjectModal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeAddModal()">&times;</span>
+            <h3 style="margin-top: 0; margin-bottom: 20px;">Yeni Proje Ekle</h3>
+            
+            <form id="createProjectForm" onsubmit="createProject(event)">
+                <label style="display:block; text-align:left; margin-bottom:5px;">Proje Adı:</label>
+                <input type="text" id="addName" class="modal-input" placeholder="Proje Adı" required>
+
+                <label style="display:block; text-align:left; margin-bottom:5px;">Açıklama:</label>
+                <input type="text" id="addDescription" class="modal-input" placeholder="Proje Açıklaması" required>
+
+                <label style="display:block; text-align:left; margin-bottom:5px;">Başlangıç Tarihi:</label>
+                <input type="date" id="addStartDate" class="modal-input" required>
+
+                <label style="display:block; text-align:left; margin-bottom:5px;">Bitiş Tarihi:</label>
+                <input type="date" id="addEndDate" class="modal-input" required>
+
+                <label style="display:block; text-align:left; margin-bottom:5px;">Durum:</label>
+                <select id="addStatus" class="modal-input" required>
+                    <option value="">Durum Seçiniz</option>
+                    <option value="0">Planlandı</option>
+                    <option value="1">Devam Ediyor</option>
+                    <option value="2">Tamamlandı</option>
+                </select>
+
+                <div class="modal-actions">
+                    <button type="button" class="cancel-btn" onclick="closeAddModal()">İptal</button>
+                    <button type="submit" class="action-btn">Projeyi Oluştur</button>
+                </div>
+                <p id="resultMessage" style="margin-top:15px; font-weight:bold;"></p>
+            </form>
+        </div>
+    </div>
+
+    <div id="editModal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <h3 style="margin-top: 0;">Projeyi Düzenle</h3>
+            
+            <form id="editForm">
+                <input type="hidden" id="editProjectId">
+
+                <label style="display:block; text-align:left; margin-bottom:5px;">Proje Adı:</label>
+                <input type="text" id="editName" class="modal-input" required>
+
+                <label style="display:block; text-align:left; margin-bottom:5px;">Açıklama:</label>
+                <input type="text" id="editDescription" class="modal-input">
+
+                <label style="display:block; text-align:left; margin-bottom:5px;">Başlangıç Tarihi:</label>
+                <input type="date" id="editStartDate" class="modal-input" required>
+
+                <label style="display:block; text-align:left; margin-bottom:5px;">Bitiş Tarihi:</label>
+                <input type="date" id="editEndDate" class="modal-input" required>
+
+                <label style="display:block; text-align:left; margin-bottom:5px;">Durum:</label>
+                <select id="editStatus" class="modal-input" required>
+                    <option value="0">Planlandı</option>
+                    <option value="1">Devam Ediyor</option>
+                    <option value="2">Tamamlandı</option>
+                </select>
+
+                <button type="button" class="action-btn" onclick="saveChanges()">Değişiklikleri Kaydet</button>
+                <p id="editMessage" style="margin-top:10px; font-weight:bold;"></p>
+            </form>
+        </div>
+    </div>
+
+    <div id="deleteModal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeDeleteModal()">&times;</span>
+            <h3 style="margin-top: 0;">Projeyi Silmek İstediğinizden emin misiniz?</h3>
+
+            <input type="hidden" id="deleteProjectId">
+
+            <div class="modal-actions" style="margin-top:20px;">
+                <button type="button" class="cancel-btn" onclick="closeDeleteModal()">İptal Et</button>
+                <button type="button" class="delete-btn" onclick="confirmDelete()">Sil</button>
+            </div>
+            <p id="deleteMessage" style="margin-top:10px; font-weight:bold;"></p>
+        </div>
+    </div>
+
+    <div id="projectDetailModal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeDetailModal()">&times;</span>
+            <h2 style="margin-top: 0;">Proje Detayları</h2>
+
+            <div style="text-align: left; margin-top: 15px; line-height: 1.8;">
+                <p><strong>Proje Adı:</strong> <span id="detailName"></span></p>
+                <p><strong>Açıklama:</strong> <span id="detailDescription"></span></p>
+                <p><strong>Başlangıç Tarihi:</strong> <span id="detailStartDate"></span></p>
+                <p><strong>Bitiş Tarihi:</strong> <span id="detailEndDate"></span></p>
+                <p><strong>Durum:</strong> <span id="detailStatus"></span></p>
+                <p><strong>Proje Sahibi ID:</strong> <span id="detailOwnerId"></span></p>
+            </div>
+        </div>
+    </div>
+
+<div id="membersModal" class="modal-overlay">
+    <div class="modal-content members-modal">
+        <div class="members-header">
+            <h2 id="membersProjectTitle">
+                Proje Üyeleri
+            </h2>
+            <button class="action-btn"
+                    onclick="openAddMemberModal()">
+                + Üye Ekle
+            </button>
+        </div>
+
+        <div id="membersContainer">
+
+        </div>
+
+        <div class="modal-actions">
+            <button class="cancel-btn"
+                    onclick="closeMembersModal()">
+                Kapat
+            </button>
+        </div>
+    </div>
+</div>
+
+<div id="addMemberModal" class="modal-overlay">
+
+    <div class="modal-content">
+
+        <h2>Projeye Üye Ekle</h2>
+
+        <label>Kullanıcı</label>
+        <select id="userSelect" class="modal-input">
+            <option value="">Kullanıcı Seçiniz</option>
+        </select>
+
+        <label>Rol</label>
+        <select id="memberRole" class="modal-input">
+            <option value="0">Member</option>
+            <option value="1">Contributor</option>
+            <option value="2">Viewer</option>
+        </select>
+
+        <div class="modal-actions">
+            <button class="action-btn" onclick="addMember()">
+                Üye Ekle
+            </button>
+
+            <button class="cancel-btn"
+                    onclick="closeAddMemberModal()">
+                Vazgeç
+            </button>
+        </div>
+
+    </div>
+</div>
+
+    <div id="removeMemberModal" class="modal-overlay">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeRemoveMemberModal()">&times;</span>
+        <h3 style="margin-top:0;">
+            Üyeyi projeden çıkarmak istediğinizden emin misiniz?
+        </h3>
+        <input type="hidden" id="removeMemberId">
+        <div class="modal-actions" style="margin-top:20px;">
+            <button class="cancel-btn" onclick="closeRemoveMemberModal()">
+                İptal Et
+            </button>
+            <button class="delete-btn" onclick="confirmRemoveMember()">
+                Çıkar
+            </button>
+        </div>
+        <p id="removeMemberMessage"
+           style="margin-top:10px;font-weight:bold;">
+        </p>
+    </div>
+</div>
+
+    <script src="projectList.js"></script> 
+    <script>
+        window.onload = () => {
+            applyFilter();
+        };
+    </script>
+</body>
+</html>

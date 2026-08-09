@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="tr">
+    <head>
+        <link rel="stylesheet" href="MainWindow.css">
+    </head>
+    
+    <body>
+      <div class="headerContainer">
+          <header class="header">
+            <h2>Proje Yönetim Sistemi</h2>
+             <ul class="panel">
+                
+                <li>
+                    <a href="MainWindow.html">Ana Sayfa</a>
+                </li>
+                
+                <li class="dropdown" id="membersMenu">
+                    <a href="../Users/userList/userList.html">Üyeler</a>
+        </li>                
+             
+                <li class="dropdown">
+                <a href="../Projects/projectList/projectList.html">Projeler</a>
+                </li>
+
+                <li class="dropdown">
+                <a href="../Tasks/taskList/taskList.html">Görevler</a>
+                </li>
+
+                <li class="dropdown">
+                <a href="../Comments/comments/Comments.html">Yorumlar</a>
+                </li>
+            </ul>
+            
+        </header>
+    </div>
+
+      <main class="main-window head">
+        <section class="welcome-section">
+        <h1 style="font-size:30px";>Hoş Geldiniz!</h1>
+        <p>Aşağıdan yapmak istediğiniz işlemi seçebilirsiniz.</p>
+    </section>
+
+        <div class="main-container">
+            <div class="column-users";> 
+                <i class="users column-icon"></i>
+                <h3 class="card-title">Üyeler</h3>
+                <p class="card-description">Üye listesini görüntüleyin.</p>
+                <a href="../Users/userList/userList.html" class="column-button users">
+                <i class="fas fa-arrow-right">Üye İşlemlerine Git</i> 
+                </a>       
+            </div>
+
+            <div class="column-projects"> 
+                <i class="projects column-icon"></i>
+                <h3 class="card-title">Projeler</h3>
+                <p class="card-description">Tüm projeleri görüntüleyin.</p>
+                <a href="../Projects/projectList/projectList.html" class="column-button projects">
+                     <i class="fas fa-arrow-right">Proje Yönetimine Git</i>
+                     </a>
+            </div>
+
+            <div class="column-tasks"> 
+                <i class="tasks column-icon"></i>
+                <h3 class="column-title">Görevler</h3>
+                <p class="column-description">Tüm görevlerinizi görüntüleyin.</p>
+                <a href="../Tasks/taskList/taskList.html" class="column-button tasks">
+                     <i class="fas fa-arrow-right">Görev Yönetimine Git</i>
+                     </a> 
+            </div>
+
+            <div class="column-comments">
+               <i class="comments column-icon"></i>
+                <h3 class="column-title">Yorumlar</h3>
+                <p class="column-description">Görevleri yorumlayın.</p>
+                <a href="../Comments/comments/Comments.html" class="column-button comments">
+                     <i class="fas fa-arrow-right">Yorumlara Git</i>
+                     </a>
+            </div>
+
+        </div>
+    </body>
+</html>

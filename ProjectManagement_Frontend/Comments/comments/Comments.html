@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yorumlar - Proje Yönetim Sistemi</title>
+    <link rel="stylesheet" href="Comments.css">
+</head>
+
+<body>
+    <div id="mySidebar" class="sidebar">
+        <a href="javascript:void(0)" class="close-btn" onclick="toggleSidebarUserList()">&times;</a>
+
+        <h2 class="sidebar-title"> Yorumlar </h2>
+        <button class="logout-btn" onclick="logout()">Çıkış Yap</button>
+    </div>
+
+    
+    <div class="menu-btn" onclick="toggleSidebar()"> &#9776; </div>
+
+    <!-- HEADER / NAVBAR -->
+    <div class="headerContainer">
+        <header class="header">
+            <h2>Proje Yönetim Sistemi</h2>
+            <ul class="panel">
+                <li><a href="../../MainWindow/MainWindow.html">Ana Sayfa</a></li>
+                <li class="dropdown">
+                    <a href="../../Users/userList/userList.html">Üyeler</a>
+                </li>
+                
+                
+                <li class="dropdown">
+                    <a href="../../Projects/projectList/projectList.html">Projeler</a>
+                </li>
+                <li class="dropdown">
+                    <a href="../../Tasks/taskList/taskList.html">Görevler</a>
+                </li>
+                <li class="dropdown">
+                    <a href="../../Comments/comments/Comments.html">Yorumlar</a>
+                </li>
+            </ul>
+        </header>
+    </div>
+
+    <!-- İÇERİK ALANI -->
+    <main class="content-wrapper">
+        <!-- FİLTRELEME ALANI -->
+       <section class="filter-bar">
+    <div class="filter-inputs">
+        <select id="taskFilter" class="form-control-filter">
+            <option value="">Tüm Görevler</option>
+        </select>
+    </div>
+
+    
+    
+    <!-- 🟣 GÖRSELDEN BİREBİR BUTON -->
+    <button class="btn-primary-purple" onclick="openAddModal()">+ Yeni Yorum Ekle</button>
+</section>
+        <!-- YORUM KARTLARI LİSTESİ (JS İle Dinamik Dolacak) -->
+        <div class="comments-container" id="commentsContainer">
+            <!-- Veritabanı verileri buraya yüklenecektir -->
+        </div>
+
+        <!-- PAGINATION -->
+        <div class="pagination-container">
+            <button id="prevBtn" onclick="prevPage()">Önceki</button>
+            <span id="pageInfo">Sayfa 1</span>
+            <button id="nextBtn" onclick="nextPage()">Sonraki</button>
+        </div>
+    </main>
+
+    <div id="deleteModal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeDeleteModal()">&times;</span>
+            <h3 style="margin-top: 0;">Yorumu Silmek İstediğinizden emin misiniz?</h3>
+
+            <input type="hidden" id="deleteProjectId">
+
+            <div class="modal-actions" style="margin-top:20px;">
+                <button type="button" class="cancel-btn" onclick="closeDeleteModal()">İptal Et</button>
+                <button type="button" class="delete-btn" onclick="confirmDelete()">Sil</button>
+            </div>
+            <p id="deleteMessage" style="margin-top:10px; font-weight:bold;"></p>
+        </div>
+    </div>
+
+    <!-- YORUM DETAY MODAL (PENCERE) -->
+<div id="detailModal" class="modal-overlay" onclick="closeModalOnOutsideClick(event)">
+    <div class="modal-content">
+        <h3 class="modal-title">Yorum Detayı</h3>
+
+        <div class="modal-field">
+            <span class="modal-label">YORUM SAHİBİ</span>
+            <span id="modalAuthor" class="modal-value modal-author"></span>
+        </div>
+
+        <div class="modal-field">
+            <span class="modal-label">İLGİLİ GÖREV</span>
+            <span id="modalTask" class="modal-value modal-task"></span>
+        </div>
+
+        <div class="modal-field">
+            <span class="modal-label">YORUM</span>
+            <p id="modalContent" class="modal-value modal-text"></p>
+        </div>
+
+        <div class="modal-field">
+            <span class="modal-label">TARİH</span>
+            <span id="modalDate" class="modal-value modal-date"></span>
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn-modal-close" onclick="closeDetailModal()">Kapat</button>
+        </div>
+    </div>
+</div>
+
+<div id="addModal" class="modal-overlay" onclick="closeAddModalOnOutsideClick(event)">
+    <div class="modal-content">
+
+        <h3 class="modal-title">Yeni Yorum Ekle</h3>
+
+        <form id="addCommentForm" onsubmit="event.preventDefault(); saveNewComment();">
+            
+<div class="form-group">
+                <label class="form-label">
+                    İlgili Görev
+                </label>
+
+                <select id="addTaskSelect" class="form-control">
+                    <option value="">Görev Seçiniz...</option>
+                </select>
+            </div>
+
+
+            <div class="form-group">
+                <label class="form-label">
+                    Yorum Metni
+                </label>
+
+                <textarea 
+                    id="addContentTextarea"
+                    class="form-control"
+                    rows="4"
+                    placeholder="Yorumunuzu yazın...">
+                </textarea>
+            </div>
+
+
+            <div class="modal-footer" style="margin-top:24px; gap:12px;">
+
+                <button 
+                    type="button"
+                    class="btn-modal-cancel"
+                    onclick="closeAddModal()">
+                    İptal
+                </button>
+
+
+                <button 
+                    type="submit"
+                    class="btn-modal-save">
+                    Yorumu Kaydet
+                </button>
+
+            </div>
+
+
+        </form>
+
+    </div>
+</div>
+<!-- YORUM DÜZENLE MODAL (PENCERE) -->
+<div id="editModal" class="modal-overlay" onclick="closeEditModalOnOutsideClick(event)">
+    <div class="modal-content">
+        <h3 class="modal-title">Yorumu Düzenle</h3>
+
+        <form id="editCommentForm" onsubmit="event.preventDefault(); saveEditedComment();">
+            <input type="hidden" id="editCommentId">
+
+            <div class="form-group">
+                <label class="form-label" for="editTaskSelect">İlgili Görev</label>
+                <select id="editTaskSelect" class="form-control">
+                    <!-- JS ile dinamik dolacak -->
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="editAuthorInput">Yorum Sahibi</label>
+                <input type="text" id="editAuthorInput" class="form-control" placeholder="Yorum sahibi adı">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="editContentTextarea">Yorum Metni</label>
+                <textarea id="editContentTextarea" class="form-control" rows="3" placeholder="Yorum metni"></textarea>
+            </div>
+
+        
+
+            <div class="modal-footer" style="margin-top: 24px; gap: 12px;">
+                <button type="button" class="btn-modal-cancel" onclick="closeEditModal()">İptal</button>
+                <button type="submit" class="btn-modal-save">Kaydet</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+    <script src="Comments.js"></script>
+</body>
+</html>

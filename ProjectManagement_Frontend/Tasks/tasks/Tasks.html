@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="Tasks.css">
+    <link re="stylesheet" href="MainWindow.css">
+</head>
+
+<body>
+    <div id="mySidebar" class="sidebar">
+        <a href="javascript:void(0)" class="close-btn" onclick="toggleSidebar()">&times;</a>
+    </div>
+    
+    <div class="menu-btn" onclick="toggleSidebar()"> &#9776; </div>
+
+    <div class="headerContainer">
+        <header class="header">
+            <h2>Proje Yönetim Sistemi</h2>
+             <ul class="panel">
+                
+                <li>
+                    <a href="../../MainWindow/MainWindow.html">Ana Sayfa</a>
+                </li>
+                
+                <li class="dropdown">
+                    <a href="../../Users/userList/userList.html">Üyeler</a>
+                </li>
+                
+                
+                <li class="dropdown">
+                <a href="../../Projects/projectList/projectList.html">Projeler</a>
+                </li>
+
+                <li class="dropdown">
+                <a href="../../Tasks/taskList/taskList.html">Görevler</a>
+                <ul class="dropdown-menu">
+                    <li><a href="../../Tasks/taskList/taskList.html">Görev Yönetimi</a></li>
+                    <li><a href="../../Tasks/tasks/Tasks.html">Görev Zaman Çizelgesi</a></li>
+                    <li><a href="../../Tasks/tasks/Tasks.html">Görev Geçmişi</a></li>
+                </ul>
+                </li>
+
+                <li class="dropdown">
+                <a href="../../Comments/comments/Comments.html">Yorumlar</a>
+                <ul class="dropdown-menu">
+                    <li><a href="../../Comments/comments/Comments.html">Yorum İşlemleri</a></li>
+                </ul>
+                </li>
+            </ul>
+        </header>
+    </div>
+    <script src="Tasks.js"></script> 
+    
+</body>
+</html>

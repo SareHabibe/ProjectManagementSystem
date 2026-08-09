@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Görev Yönetimi</title>
+    <link rel="stylesheet" href="taskList.css">
+</head>
+
+<body>
+    <div id="mySidebar" class="sidebar">
+        <a href="javascript:void(0)" class="close-btn" onclick="toggleSidebarUserList()">&times;</a>
+
+        <h2 class="sidebar-title"> Görev Yönetimi </h2>
+        <button class="logout-btn" onclick="logout()">Çıkış Yap</button>
+    </div>
+
+    <div class="menu-btn" onclick="toggleSidebar()"> &#9776; </div>
+
+    <div class="headerContainer">
+        <header class="header">
+            <h2>Proje Yönetim Sistemi</h2>
+            <ul class="panel">
+                <li><a href="../../MainWindow/MainWindow.html">Ana Sayfa</a></li>
+                <li class="dropdown">
+                    <a href="../../Users/userList/userList.html">Üyeler</a>
+                </li>
+                <li class="dropdown">
+                    <a href="../../Projects/projectList/projectList.html">Projeler</a>
+                </li>
+                <li class="dropdown">
+                    <a href="../../Tasks/taskList/taskList.html">Görevler</a>
+                </li>
+                <li class="dropdown">
+                    <a href="../../Comments/comments/Comments.html">Yorumlar</a>
+                </li>
+            </ul>
+        </header>
+    </div>
+
+    <main class="content-wrapper">
+        
+        <section class="filter-bar">
+            <input list="projectOptions" id="filterProjectInput" placeholder="Proje adı" autocomplete="off" onchange="filterUsersByProject()">
+            <datalist id="projectOptions"></datalist>
+
+            <input list="userOptions" id="filterUserInput" placeholder="Görevli adı" autocomplete="off">
+            <datalist id="userOptions"></datalist>
+
+            <select id="filterStatus">
+                <option value="">Tüm Durumlar</option>
+                <option value="0">Planlandı</option>
+                <option value="1">Devam Ediyor</option>
+                <option value="2">İncelemede</option>
+                <option value="3">Tamamlandı</option>
+            </select>
+
+            <select id="filterPriority">
+                <option value="">Tüm Öncelikler</option>
+                <option value="0">Düşük</option>
+                <option value="1">Orta</option>
+                <option value="2">Yüksek</option>
+                <option value="3">Kritik</option>
+            </select>
+
+            <button onclick="applyTaskFilter()">Filtrele</button>
+            <button class="action-btn" onclick="openAddTaskModal()" style="margin-left: auto;">+ Yeni Görev</button>
+        </section>
+
+
+        <div id="addTaskModal" class="modal-overlay" style="display: none;">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeAddTaskModal()">&times;</span>
+
+        <div class="modal-header">
+            <h2>Yeni Görev Ekle</h2>
+        </div>
+
+        <form id="createTaskForm" onsubmit="createTask(event)">
+            <div class="modal-form-group">
+                <label>Görev Adı:</label>
+                <input type="text" id="addTitle" class="modal-input" required placeholder="Görev başlığını girin...">
+            </div>
+
+            <div class="modal-form-group">
+                <label>Açıklama:</label>
+                <textarea id="addDescription" class="modal-input" rows="3" placeholder="Görev detayları..."></textarea>
+            </div>
+
+            <div class="modal-form-group">
+                <label>Durum:</label>
+                <select id="addStatus" class="modal-input">
+                    <option value="0">Planlandı</option>
+                    <option value="1">Devam Ediyor</option>
+                    <option value="2">İncelemede</option>
+                    <option value="3">Tamamlandı</option>
+                </select>
+            </div>
+
+            <div class="modal-form-group">
+                <label>Öncelik:</label>
+                <select id="addPriority" class="modal-input">
+                    <option value="0">Düşük</option>
+                    <option value="1" selected>Orta</option>
+                    <option value="2">Yüksek</option>
+                    <option value="3">Kritik</option>
+                </select>
+            </div>
+
+            <!-- ID'leri opsiyonel olduğu için şimdilik gizleyebilir veya açık tutabilirsin -->
+            <div class="modal-form-group" style="display: flex; gap: 10px;">
+                <div style="flex: 1;">
+                    <label>Proje Adı:</label>
+<input list="addProjectOptions"
+       id="addProjectId"
+       class="modal-input"
+       placeholder="Proje seçin"
+       onchange="loadProjectMembers()">
+
+<datalist id="addProjectOptions"></datalist>
+                </div>
+                <div style="flex: 1;">
+                    <label>Kullanıcı Adı:</label>
+<input list="addUserOptions"
+       id="addAssignedToUserId"
+       class="modal-input"
+       placeholder="Kullanıcı seçin">
+
+<datalist id="addUserOptions"></datalist>
+                </div>
+            </div>
+
+            <div class="modal-form-group">
+                <label>Bitiş Tarihi:</label>
+                <input type="date" id="addDueDate" class="modal-input">
+            </div>
+
+            <!-- Sonuç Bildirimi -->
+            <div id="addResultMessage" style="font-weight: 600; font-size: 14px; margin-bottom: 10px;"></div>
+
+            <!-- Butonlar (Senin modal-actions, cancel-btn ve action-btn sınıfların) -->
+            <div class="modal-actions">
+                <button type="submit" class="action-btn">Görevi Kaydet</button>
+            </div>
+        </form>
+    </div>
+</div>
+        <!-- KANBAN BOARD ALANI (TEMİZLENMİŞ) -->
+        <div class="kanban-board">
+            
+            <div class="kanban-column">
+                <div class="column-header">
+                    <span class="column-title todo">PLANLANDI</span>
+                    <span class="column-badge" id="countStatus0">0</span>
+                </div>
+                <div class="cards-container" id="kanbanStatus0"></div>
+            </div>
+
+            <div class="kanban-column">
+                <div class="column-header">
+                    <span class="column-title in-progress">DEVAM EDİYOR</span>
+                    <span class="column-badge" id="countStatus1">0</span>
+                </div>
+                <div class="cards-container" id="kanbanStatus1"></div>
+            </div>
+
+            <div class="kanban-column">
+                <div class="column-header">
+                    <span class="column-title in-review" style="color: #0284c7;">İNCELEMEDE</span>
+                    <span class="column-badge" id="countStatus2">0</span>
+                </div>
+                <div class="cards-container" id="kanbanStatus2"></div>
+            </div>
+
+            <div class="kanban-column">
+                <div class="column-header">
+                    <span class="column-title completed">TAMAMLANDI</span>
+                    <span class="column-badge" id="countStatus3">0</span>
+                </div>
+                <div class="cards-container" id="kanbanStatus3"></div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- DÜZENLEME / YÖNETİM MODALI -->
+    <div id="editTaskModal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeTaskModal()">&times;</span>
+            <h3 style="margin-top: 0;">Görevi Yönet</h3>
+            
+            <form id="editTaskForm">
+                <input type="hidden" id="editTaskId">
+
+                <label style="display:block; text-align:left; margin-bottom:5px;">Görev Adı (Title):</label>
+                <input type="text" id="editTaskTitle" class="modal-input" required>
+
+                <label style="display:block; text-align:left; margin-bottom:5px;">Açıklama (Description):</label>
+                <input type="text" id="editTaskDescription" class="modal-input">
+
+                <label style="display:block; text-align:left; margin-bottom:5px;">Durum (Status):</label>
+                <select id="editTaskStatus" class="modal-input" required>
+                    <option value="0">Planlandı</option>
+                    <option value="1">Devam Ediyor</option>
+                    <option value="2">İncelemede</option>
+                    <option value="3">Tamamlandı</option>
+                </select>
+
+                <label style="display:block; text-align:left; margin-bottom:5px;">Öncelik (Priority):</label>
+                <select id="editTaskPriority" class="modal-input" required>
+                    <option value="0">Düşük</option>
+                    <option value="1">Orta</option>
+                    <option value="2">Yüksek</option>
+                    <option value="3">Kritik</option>
+                </select>
+
+                <label style="display:block; text-align:left; margin-bottom:5px;">Atanan Kişi:</label>
+                <input list="editUserOptions" id="editTaskUser" class="modal-input" placeholder="Kişi seçin..." autocomplete="off">
+                <datalist id="editUserOptions"></datalist>
+
+                <button type="button" class="action-btn edit-btn" onclick="saveTaskChanges()" style="width: 100%; padding: 10px;">Değişiklikleri Kaydet</button>
+                <p id="editTaskMessage" style="margin-top:10px; font-weight:bold;"></p>
+            </form>
+        </div>
+    </div>
+
+    <div id="deleteModal" class="modal-overlay" style="display: none;">
+    <div class="modal-content" style="max-width: 380px; text-align: center;">
+        <span class="close-modal" onclick="closeDeleteModal()">&times;</span>
+        <h3 style="margin-top: 0; color: #ef4444;">Görevi Sil</h3>
+        <p style="margin: 15px 0; color: var(--text-secondary);">Bu görevi silmek istediğinize emin misiniz? Bu işlem geri alınamaz.</p>
+        
+        <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
+            <button type="button" class="action-btn" onclick="confirmDeleteTask()" style="background-color: #ef4444;">Evet, Sil</button>
+            <button type="button" class="action-btn" onclick="closeDeleteModal()" style="background-color: #6b7280;">Vazgeç</button>
+        </div>
+    </div>
+</div>
+
+    <script src="taskList.js"></script> 
+
+<div id="timeLogModal" class="modal-overlay" style="display:none;">
+    <div class="modal-content">
+
+        <span class="close-modal" onclick="closeTimeLogModal()">&times;</span>
+
+        <h2>Zaman Kaydı</h2>
+
+        <h4 id="timeLogTaskTitle"></h4>
+
+        <input type="hidden" id="timeLogTaskId">
+
+        <label>Tarih</label>
+        <input type="date" id="logDate" class="modal-input">
+
+        <label>Çalışılan Saat</label>
+        <input type="number" id="workedHours" class="modal-input">
+
+        <label>Açıklama</label>
+        <textarea id="timeDescription" class="modal-input"></textarea>
+
+        <button class="action-btn" onclick="saveTimeLog()">
+            Kaydet
+        </button>
+       
+        <p id="timeLogMessage"
+   style="margin-top:10px;
+          font-weight:bold;
+          text-align:center;">
+</p>
+
+
+
+<div id="taskHistoryList">
+
+</div>
+
+    </div>
+</div>
+
+<form onsubmit="createTask(event)"></form>
+
+<div id="historyModal" class="modal-overlay" style="display:none;">
+
+    <div class="modal-content">
+
+        <span class="close-modal" onclick="closeHistoryModal()">&times;</span>
+
+        <h2>Görev Geçmişi</h2>
+
+        <h4 id="historyTaskTitle"></h4>
+
+        <div id="historyList"></div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

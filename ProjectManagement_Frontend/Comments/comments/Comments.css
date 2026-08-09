@@ -1,0 +1,754 @@
+:root {
+    --primary: #5B21B6;
+    --accent-purple: #8B5CF6;
+    
+    --bg-main: #f3f4f6;
+    --bg-surface: #ffffff;
+    --bg-solid: #ffffff;
+    
+    --text-primary: #1e1b4b;
+    --text-secondary: #6b7280;
+    --border-color: rgba(91, 33, 182, 0.12);
+
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+    --shadow-md: 0 4px 16px rgba(91, 33, 182, 0.08);
+    --radius: 12px;
+    --radius-sm: 8px;
+    --transition: all 0.2s ease;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 50%, #dbeafe 100%);
+    background-attachment: fixed;
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    zoom: 0.85;
+}
+
+/* --- SIDEBAR --- */
+.sidebar {
+    top: 70px !important; 
+    bottom: 0 !important; 
+    height: auto !important; 
+    width: 260px !important; 
+    position: fixed !important;
+    z-index: 1000; 
+    left: 0;
+    background: #ffffff !important; 
+    border-right: 1px solid var(--border-color);
+    box-shadow: 2px 0 10px rgba(91, 33, 182, 0.03);
+    overflow-x: hidden;
+    padding-top: 20px; 
+}
+
+.sidebar a {
+    display: flex;
+    align-items: center;
+    padding: 12px 24px;
+    text-decoration: none;
+    font-size: 14px;
+    color: var(--text-secondary) !important;
+    font-weight: 600;
+    transition: var(--transition);
+    border-left: 3px solid transparent;
+}
+
+.sidebar a:hover {
+    background-color: rgba(91, 33, 182, 0.06) !important; 
+    color: var(--primary) !important;
+    border-left-color: var(--primary) !important;
+}
+
+.sidebar .close-btn,
+.menu-btn {
+    display: none;
+}
+
+/* --- HEADER --- */
+.headerContainer {
+    background: linear-gradient(90deg, var(--primary), var(--accent-purple)) !important;
+    padding: 0 40px; 
+    margin-left: 0 !important; 
+    width: 100%; 
+    border-bottom: 1px solid rgba(255, 255, 255, 0.25) !important; 
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15) !important;
+    position: sticky;
+    top: 0;
+    z-index: 2000; 
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 70px; 
+}
+
+.header h2 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 0.5px;
+}
+
+/* --- NAVBAR DROPDOWN --- */
+.panel {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin: 0;
+    padding: 0;
+}
+.panel > li {
+    position: relative; 
+    list-style: none;
+}
+
+.panel li a {
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.85);
+    font-weight: 600;
+    font-size: 14px;
+    transition: var(--transition);
+    padding: 8px 12px;
+    border-radius: var(--radius-sm);
+    display: block;
+}
+
+.panel li a:hover {
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.15); 
+}
+
+.panel li ul {
+    display: none; 
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: var(--bg-solid);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-md);
+    padding: 10px 0;
+    min-width: 180px;
+    z-index: 100;
+}
+
+.panel li ul li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.panel li:hover > ul {
+    display: block;
+}
+
+.panel li ul li a {
+    padding: 8px 20px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--primary) !important; 
+}
+
+.panel li ul li a:hover {
+    background-color: var(--bg-main);
+}
+
+/* --- MAIN CONTENT --- */
+.content-wrapper {
+    padding: 30px 40px;
+    margin-left: 260px !important;
+    flex: 1;
+}
+
+/* --- FİLTRELEME BAR'I VE MOR EKLE BUTONU (BİREBİR TASARIM) --- */
+.filter-bar {
+    background-color: #ffffff;
+    padding: 16px 24px;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+    margin-bottom: 24px;
+}
+
+.filter-inputs {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+}
+
+.form-control-filter {
+    padding: 10px 16px;
+    font-size: 14px;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    color: #334155;
+    background-color: #ffffff;
+    outline: none;
+    min-width: 220px;
+}
+
+/* 🟣 GÖRSELDEN BİREBİR MOR BUTON */
+.btn-primary-purple {
+    background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+    color: #ffffff;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(124, 58, 237, 0.35);
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.btn-primary-purple:hover {
+    background: linear-gradient(135deg, #6d28d9 0%, #5b21b6 100%);
+    box-shadow: 0 6px 18px rgba(124, 58, 237, 0.45);
+    transform: translateY(-1px);
+}
+
+.filter-bar {
+    background-color: #ffffff;
+    padding: 16px 24px;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+    margin-bottom: 24px;
+}
+
+.filter-bar select {
+    width: 220px;
+    padding: 8px 14px;
+    border: 1px solid #d1d5db;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    color: #374151;
+    outline: none;
+    background-color: #ffffff;
+    cursor: pointer;
+}
+
+.filter-bar select:focus {
+    border-color: var(--primary);
+}
+
+/* --- COMMENTS CONTAINER & KARTLARI --- */
+.comments-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 25px;
+}
+
+.comment-card {
+    background: #ffffff;
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Yorum Başlığı */
+.comment-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.author-name {
+    font-weight: 700;
+    font-size: 14px;
+    color: #1e1b4b;
+}
+
+/* Rozetler (Badges) */
+.badge {
+    padding: 3px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: lowercase;
+}
+
+.badge-oneri {
+    background-color: #fef3c7;
+    color: #d97706;
+}
+
+.badge-genel {
+    background-color: #dcfce7;
+    color: #16a34a;
+}
+
+.badge-sorun {
+    background-color: #fee2e2;
+    color: #dc2626;
+}
+
+/* Bağlantı ve Zaman Metinleri */
+.task-link, .comment-time {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 13px;
+    color: #9ca3af;
+}
+
+.icon {
+    width: 15px;
+    height: 15px;
+    stroke: #9ca3af;
+}
+
+/* Yorum Metni */
+.comment-body {
+    font-size: 14px;
+    color: #374151;
+    font-weight: 500;
+    line-height: 1.5;
+}
+
+/* Kart Altındaki İkon Butonlar */
+.comment-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 4px;
+}
+
+.action-icon-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    border: 1px solid #e5e7eb;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.action-icon-btn:hover {
+    background-color: #f9fafb;
+    border-color: #d1d5db;
+}
+
+.action-icon-btn svg {
+    width: 14px;
+    height: 14px;
+}
+
+.btn-view svg {
+    stroke: #6b7280;
+}
+
+.btn-delete svg {
+    stroke: #ef4444;
+}
+
+/* --- PAGINATION --- */
+.pagination-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+}
+
+.pagination-container button {
+    background-color: var(--bg-solid);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 8px 16px;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.pagination-container button:hover {
+    background-color: #eef2ff;
+    color: var(--primary);
+}
+
+#pageInfo {
+    font-size: 14px;
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+/* --- DÜZENLEME MODAL FORMLARI BİREBİR TASARIM --- */
+.form-group {
+    margin-bottom: 18px;
+    text-align: left;
+}
+
+.form-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #64748b;
+    margin-bottom: 6px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px 14px;
+    font-size: 14px;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    color: #1e293b;
+    background-color: #ffffff;
+    outline: none;
+    box-sizing: border-box;
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+
+.form-control:focus {
+    border-color: #7c3aed;
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.12);
+}
+
+textarea.form-control {
+    resize: vertical;
+    min-height: 85px;
+}
+
+/* İPTAL VE KAYDET BUTONLARI */
+.btn-modal-cancel {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    color: #334155;
+    padding: 10px 24px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-modal-cancel:hover {
+    background-color: #f8fafc;
+    border-color: #cbd5e1;
+}
+
+.btn-modal-save {
+    background-color: #7c3aed; /* Görseldeki mor renk */
+    border: none;
+    color: #ffffff;
+    padding: 10px 28px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.35);
+    transition: all 0.2s ease;
+}
+
+.btn-modal-save:hover {
+    background-color: #6d28d9;
+    box-shadow: 0 6px 16px rgba(124, 58, 237, 0.45);
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 23, 42, 0.55);
+    backdrop-filter: blur(4px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal-content {
+    background: #ffffff;
+    width: 100%;
+    max-width: 480px;
+    border-radius: 20px;
+    padding: 36px 40px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+    animation: slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 24px;
+    margin-top: 0;
+}
+
+.modal-field {
+    margin-bottom: 20px;
+}
+
+.modal-label {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    color: #94a3b8; /* Açık gri uppercase başlıklar */
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    margin-bottom: 4px;
+}
+
+.modal-value {
+    font-size: 15px;
+    color: #1e293b;
+    margin: 0;
+    line-height: 1.5;
+}
+
+.modal-author {
+    font-weight: 700;
+}
+
+.modal-task {
+    font-weight: 600;
+    color: #334155;
+}
+
+.modal-text {
+    font-weight: 500;
+    color: #334155;
+}
+
+.modal-date {
+    font-weight: 500;
+    color: #334155;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 32px;
+}
+
+.btn-modal-close {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    color: #334155;
+    padding: 10px 26px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.btn-modal-close:hover {
+    background-color: #f8fafc;
+    border-color: #cbd5e1;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(12px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ===========================
+   DELETE COMMENT MODAL
+=========================== */
+
+
+.delete-modal {
+    width: 640px;
+    background: white;
+    border-radius: 20px;
+
+    padding: 38px 40px;
+
+    position: relative;
+
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+
+
+.modal-close {
+
+    position: absolute;
+
+    right: 32px;
+    top: 22px;
+
+
+    border: none;
+    background: transparent;
+
+
+    font-size: 32px;
+
+    color: #6b7280;
+
+    cursor: pointer;
+}
+
+
+
+.delete-modal h2 {
+
+    margin: 0;
+
+    color: #20235a;
+
+    font-size: 24px;
+
+    font-weight: 700;
+
+}
+
+
+
+.modal-actions {
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 15px;
+
+    margin-top: 35px;
+
+}
+
+
+
+.cancel-btn {
+
+
+    width: 120px;
+
+    height: 52px;
+
+
+    border-radius: 12px;
+
+
+    border: 1px solid #ddd6fe;
+
+
+    background: white;
+
+
+    color: #6b7280;
+
+
+    font-size: 16px;
+
+
+    font-weight: 600;
+
+
+    cursor: pointer;
+
+}
+
+
+
+.delete-btn {
+
+
+    width: 80px;
+
+    height: 52px;
+
+
+    border-radius: 12px;
+
+
+    border: none;
+
+
+    background: #ef4444;
+
+
+    color: white;
+
+
+    font-size: 16px;
+
+
+    font-weight: 700;
+
+
+    cursor: pointer;
+
+
+    box-shadow: 0 8px 20px rgba(239,68,68,0.25);
+
+}
+
+
+
+#deleteMessage {
+
+    margin-top: 10px;
+
+    font-weight: bold;
+
+}
+
+.sidebar-title {
+    color: black;
+    text-align: center;
+    margin-top: 130px;
+    font-size: 22px;
+}
+
+.logout-btn {
+    margin-left: 30%;
+    margin-top: 150%;
+    background-color: #8d38f5;
+    color: white;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 16px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.logout-btn:hover {
+    background-color: #c0392b;
+}
