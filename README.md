@@ -21,18 +21,31 @@ Bu proje, ASP.NET Core Web API kullanılarak geliştirilmiş bir Proje Yönetim 
 
 
 •Kullanıcı kayıt ve giriş işlemleri
+
 •JWT tabanlı kimlik doğrulama 
+
 •Rol bazlı ve proje üyeliğine dayalı yetkilendirmeler (Admin, ProjectManager, TeamMember, Viewer)
+
 •Proje Yönetimi (Oluşturma, güncelleme, listeleme, arşivleme)
+
 •Proje Üye Yönetimi (Proje üyelerini listeleme, üye ekleme, üye çıkarma işlemleri)
+
 •Görev Yönetimi (Görevleri oluşturma, listeleme, düzenleme, silme (soft delete) işlemleri)
+
 •Yorum Sistemi (Yetkili proje üyelerinin görevlere yorum yazabilmesi)
+
 •Görev Geçmişi (Task History - Durum, atama ve öncelik değişim logları)
+
 •Zaman Kaydı (Timelogs - Görev için harcanan çalışma saatlerinin girilmesi)
+
 •Filtreleme, Sıralama ve Sayfalama (Pagination)
+
 •Soft Delete (Verilerin kalıcı silinmesi yerine IsDeleted ile saklanması)
+
 •Global Exception Handling (Hata Yönetimi)
+
 •Swagger/OpenAPI üzerinden interaktif test imkanı
+
 
 
 
@@ -43,9 +56,13 @@ Bu proje, ASP.NET Core Web API kullanılarak geliştirilmiş bir Proje Yönetim 
 Uygulama ilk kez açıldığında "DataSeeder" mekanizması otomatik olarak çalışır ve test edebilmeniz için örnek verileri veritabanına basar. Aşağıdaki test hesaplarıyla giriş yapabilirsiniz.
 
 | Rol | E-posta | Şifre |
+
 Admin | `admin@project.com` | `Admin123!`|
+
 Project Manager | `projectManager@project.com` | `Pm123!`|
+
 Team Member| `member@project.com` | `member123!`|
+
 Viewer| `viewer@project.com` | `Viewer123!` |
 
 
