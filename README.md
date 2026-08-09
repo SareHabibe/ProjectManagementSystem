@@ -4,17 +4,38 @@ Proje Yönetim Sistemi
 
 Bu proje, ASP.NET Core Web API kullanılarak geliştirilmiş bir Proje Yönetim Sistemi uygulamasıdır.
 
+
+
+
+
+
+
+
+
 -Kullanılan Teknolojiler-
 
 
 •Backend = C#, Asp.Net Core Web API, Entity Framework Core
+
 •Veri Erişimi = Entity Framework Core (ORM) (Migration desteği)
+
 •Veritabanı = Microsoft SQL Server
+
 •Kimlik Doğrulama = JWT Bearer Authentication
+
 •Frontend = HTML, CSS, JAVASCRIPT
+
 •Mimari = Katmanlı Mimari, Repository Pattern, Service Layer
+
 •Dökümantasyon = Swagger/OpenAPI entegrasyonu mevcuttur.
+
 •Veri Transferi = Entity modelleri doğrudan API çıktısı olarak kullanılmamış, DTO  yaklaşımı tercih edilmiştir.
+
+
+
+
+
+
 
 
 -Özellikler-
@@ -51,6 +72,13 @@ Bu proje, ASP.NET Core Web API kullanılarak geliştirilmiş bir Proje Yönetim 
 
 
 
+
+
+
+
+
+
+
 -ÖRNEK VERİLER (DataSeeder)-
 
 Uygulama ilk kez açıldığında "DataSeeder" mekanizması otomatik olarak çalışır ve test edebilmeniz için örnek verileri veritabanına basar. Aşağıdaki test hesaplarıyla giriş yapabilirsiniz.
@@ -64,6 +92,18 @@ Project Manager | `projectManager@project.com` | `Pm123!`|
 Team Member| `member@project.com` | `member123!`|
 
 Viewer| `viewer@project.com` | `Viewer123!` |
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
