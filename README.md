@@ -150,7 +150,7 @@ Proje içerisindeki appsettings.json dosyasını açın.
 ConnectionStrings alanındaki sunucu adını kendi yerel SQL Server sunucu adınıza göre güncelleyin 
 
 Örnek bağlantı cümlesi:
-"Server=localhost\\SQLEXPRESS;Database=ProjectManagementDB;Trusted_Connection=True;TrustServerCertificate=True;"
+"Server=localhost\ \SQLEXPRESS;Database=ProjectManagementDB;Trusted_Connection=True;TrustServerCertificate=True;"
 
 
 4. Veritabanını Oluşturma (Migration)
